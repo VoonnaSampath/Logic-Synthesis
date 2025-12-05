@@ -4,12 +4,10 @@ This repository contains the **logic synthesis setup and scripts** used to synth
 
 The project demonstrates a complete ASIC synthesis flow using:
 
-- `saed32rvt_tt0p78vn40c.db` (target library)  
-- `run_dc.tcl` (main DC flow script)  
-- `picorv32a.v` RTL  
-- `picorv32a.sdc` design constraints  
-
----
+- `saed32rvt_tt0p78vn40c.db` - Target library
+- `run_dc.tcl` - main DC flow script  
+- `picorv32a.v` - RTL  
+- `picorv32a.sdc` - Design constraints  
 
 ## 🚀 What This Project Does
 
@@ -23,8 +21,6 @@ This flow:
    - Gate-level netlist (`.v`)
    - Timing/area/power reports
    - Mapped synthesized design
-
----
 
 ## 🛠️ Prerequisites
 
@@ -42,19 +38,17 @@ This flow:
 - Place the library file here:
   → ref/saed32rvt_tt0p78vn40c.db
 
----
-
 ## ▶️ How I Ran the Synthesis
 
 I followed these steps:
 
 ### 1. Open DC Shell
 
-"dc_shell"
+'dc_shell'
 
 ### 2. Source the synthesis script
 
-"source run_dc.tcl"
+'source run_dc.tcl'
 
 The script automatically:
 
@@ -64,47 +58,42 @@ The script automatically:
 - Runs `compile_ultra`  
 - Generates netlist + reports  
 
----
-
 ## 📌 How YOU Can Run This Repository
 
 ### 1. Clone the repo
 
-"git clone <https://github.com/><your-username>/<repo-name>.git"
-"cd <repo-name>"
+'git clone <https://github.com/><your-username>/<repo-name>.git'
+'cd <repo-name>'
 
 ### 2. Ensure SAED32 library is available
 
-"ref/saed32rvt_tt0p78vn40c.db"
+'ref/saed32rvt_tt0p78vn40c.db'
 
 ### 3. Launch DC Shell
 
-"dc_shell"
+'dc_shell'
 
 ### 4. Source the synthesis script
 
-"source run_dc.tcl"
+'source run_dc.tcl'
 
 ### 5. Check Outputs
 
 After synthesis, check:
 
 out/
-├── picorv32a_syn.v        # gate-level netlist
-├── area_report.rpt
-├── timing_report.rpt
-├── power_report.rpt
-└── design.log
 
----
+- gate-level netlist
+- area_report.rpt
+- timing_report.rpt
+- power_report.rpt
+- qor.rpt
 
 ## 🧠 Notes
 
 - Compatible with the **Academic** version of DC.  
 - Ensure your SAED32 library paths are correct.  
 - You can later extend this project with multi-corner libraries or DFT.
-
----
 
 ## ⭐ If you find this useful
 
