@@ -62,8 +62,8 @@ The script automatically:
 
 ### 1. Clone the repo
 
-'git clone <https://github.com/><your-username>/<repo-name>.git'
-'cd <repo-name>'
+'git clone <this_repositiry_link>'
+'cd "repo_name"'
 
 ### 2. Ensure SAED32 library is available
 
