@@ -15,18 +15,13 @@ The project demonstrates a complete ASIC synthesis flow using:
 
 .
 ├── src/
-
 │   └── picorv32a.sv
-
 ├── constraints/
 │   └── picorv32a.sdc
-
 ├── scripts/
 │   └── run_dc.tcl
-
 ├── libs/
 │   └── saed32rvt_tt0p78vn40c.db
-
 └── README.md
 
 ---
