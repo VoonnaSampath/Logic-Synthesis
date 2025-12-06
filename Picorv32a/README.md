@@ -18,8 +18,8 @@ This flow:
 3. Applies timing constraints (`.sdc`)  
 4. Runs synthesis using DC Shell  
 5. Generates:
-   - Gate-level netlist (`.v`)
-   - Timing/area/power reports
+   - Gate-level netlist (`mapped.v`)
+   - Timing, area, power reports
    - Mapped synthesized design
 
 ## 🛠️ Prerequisites
@@ -44,11 +44,11 @@ I followed these steps:
 
 ### 1. Open DC Shell
 
-'dc_shell'
+`dc_shell`
 
 ### 2. Source the synthesis script
 
-'source run_dc.tcl'
+`source run_dc.tcl`
 
 The script automatically:
 
@@ -62,20 +62,20 @@ The script automatically:
 
 ### 1. Clone the repo
 
-'git clone <this_repositiry_link>'
-'cd "repo_name"'
+`git clone <this_repositiry_link>`
+`cd "repo_name"`
 
 ### 2. Ensure SAED32 library is available
 
-'ref/saed32rvt_tt0p78vn40c.db'
+`ref/saed32rvt_tt0p78vn40c.db`
 
 ### 3. Launch DC Shell
 
-'dc_shell'
+`dc_shell`
 
 ### 4. Source the synthesis script
 
-'source run_dc.tcl'
+`source run_dc.tcl`
 
 ### 5. Check Outputs
 
@@ -84,10 +84,10 @@ After synthesis, check:
 out/
 
 - gate-level netlist
-- area_report.rpt
-- timing_report.rpt
-- power_report.rpt
-- qor.rpt
+- area_report
+- timing_report
+- power_report
+- qor
 
 ## 🧠 Notes
 
