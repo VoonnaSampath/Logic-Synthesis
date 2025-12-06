@@ -44,11 +44,11 @@ I followed these steps:
 
 ### 1. Open DC Shell
 
-`dc_shell`
+- `dc_shell`
 
 ### 2. Source the synthesis script
 
-`source run_dc.tcl`
+- `source run_dc.tcl`
 
 The script automatically:
 
@@ -62,20 +62,20 @@ The script automatically:
 
 ### 1. Clone the repo
 
-`git clone <this_repositiry_link>`
-`cd "repo_name"`
+- `git clo ne <this_repositiry_link>`
+- `cd "repo_name"`
 
 ### 2. Ensure SAED32 library is available
 
-`ref/saed32rvt_tt0p78vn40c.db`
+- `ref/saed32rvt_tt0p78vn40c.db`
 
 ### 3. Launch DC Shell
 
-`dc_shell`
+- `dc_shell`
 
 ### 4. Source the synthesis script
 
-`source run_dc.tcl`
+- `source run_dc.tcl`
 
 ### 5. Check Outputs
 
@@ -93,7 +93,7 @@ out/
 
 - Compatible with the **Academic** version of DC.  
 - Ensure your SAED32 library paths are correct.  
-- You can later extend this project with multi-corner libraries or DFT.
+- You can later extend this project with multi-corner libraries.
 
 ## ⭐ If you find this useful
 
