@@ -21,6 +21,7 @@ This flow:
    - Gate-level netlist (`mapped.v`)
    - Timing, area, power reports
    - Mapped synthesized design
+6. You can find my reports as `Reports of PICORV32a.pdf`
 
 ## 🛠️ Prerequisites
 
