@@ -55,14 +55,14 @@ The script automatically:
 - Sets the target library  
 - Reads the RTL  
 - Applies SDC constraints  
-- Runs `compile_ultra`  
+- Runs `compile`  
 - Generates netlist + reports  
 
 ## 📌 How YOU Can Run This Repository
 
 ### 1. Clone the repo
 
-- `git clo ne <this_repositiry_link>`
+- `git clone <this_repositiry_link>`
 - `cd "repo_name"`
 
 ### 2. Ensure SAED32 library is available
