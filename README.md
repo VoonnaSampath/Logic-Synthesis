@@ -59,7 +59,7 @@ set PDKPATH "./ref/saed32"
 
 Each PVT corner and delay model is placed in a **separate folder**, for example:
 
-ref/
+    ref/
     ├── saed32/
     │   ├── nldm/
     │   │   ├── tt/
@@ -82,7 +82,7 @@ This approach mirrors **industry-standard synthesis scripting practices** and av
 
 ## Repository Structure
 
-Picorv32a/
+    Picorv32a/
     ├── rtl/                # picorv32a RTL
     ├── constraints/        # SDC constraints
     ├── scripts/            # DC synthesis scripts
