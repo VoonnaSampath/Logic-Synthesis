@@ -128,7 +128,7 @@ This approach mirrors **industry-standard synthesis scripting practices** and av
 ### 1\. Clone the repository
 
 `git clone <repository_link>`
-`cd dc-synthesis-qor-study`
+`cd Logic Synthesis/Picorv32a`
 
 ### 2\. Ensure library availability
 
