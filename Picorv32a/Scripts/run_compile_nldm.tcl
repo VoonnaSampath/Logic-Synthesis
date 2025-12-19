@@ -16,11 +16,8 @@ read_sdc -echo ./../CONSTRAINTS/picorv32a.sdc
 
 compile
 
-report_timing
-report_timin -delay min
-report_qor
-report_power
-report_area
 
 #write results ###
 write -format verilog -hierarchy -output ${RESULTS_DIR}/${DCRM_FINAL_VERILOG_OUTPUT_FILE}
+write_sdf ./${RESULTS_DIR}/${DCRM_DCT_FINAL_SDF_OUTPUT_FILE}
+
