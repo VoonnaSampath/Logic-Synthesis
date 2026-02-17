@@ -183,7 +183,7 @@ Run the required scripts as needed:
 - `source Picorv32a/Scripts/run_compile_ccs.tcl`
 - `source Picorv32a/Scripts/run_ultra_ccs.tcl`
 
-Before running, update target/link library selections in `rm_setup/common_setup.tcl` and related `rm_setup` files.
+Before running, update the target/link library selections in `rm_setup/common_setup.tcl`, related `rm_setup` files along with the CONSTRAINT file `.sdc` .
 
 ---
 
