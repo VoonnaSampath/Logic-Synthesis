@@ -36,7 +36,7 @@ analyze -format verilog ${RTL_SOURCE_FILES}
 elaborate ${DESIGN_NAME}
 current_design
 #set_verification_top
-read_sdc -echo ./../CONSTRAINTS/picorv32a.sdc
+read_sdc -echo ./../CONSTRAINTS/picorv32a_new.sdc
 
 #group_path -name INPUT -from [all_inputs]
 

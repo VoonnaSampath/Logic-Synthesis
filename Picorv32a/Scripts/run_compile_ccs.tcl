@@ -1,6 +1,6 @@
 ####Script to run Design Compiler with Different Scenarios#####
 ##
-set PDK_PATH /data/pdk/pdk32nm/SAED32_EDK/lib/stdcell_rvt/db_ccs
+set PDK_PATH ./../ref
 #
 source -echo -verbose ./rm_setup/dc_setup.tcl
 

@@ -1,4 +1,4 @@
-set PDK_PATH ./../ref/lib/stdcell_rvt
+set PDK_PATH ./../ref
 
 source -echo -verbose ./rm_setup/dc_setup.tcl
 
