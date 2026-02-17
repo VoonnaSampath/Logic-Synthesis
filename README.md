@@ -20,7 +20,7 @@ The flow is organized to be reusable and script-friendly: library selection is c
 - **RTL**: `picorv32a` (open-source RISC-V core)
 - **Technology Node**: 32nm
 - **Library**: SAED32 (educational/academic setup)
-- **Tool**: Synopsys Design Compiler (`dc_shell`, Academic)
+- **Tool**: Synopsys Design Compiler (`dc_shell` Academic version)
 - **Constraints**: single-clock synchronous SDC flow
 
 ---
@@ -36,8 +36,6 @@ The flow is organized to be reusable and script-friendly: library selection is c
 
 - `compile`
 - `compile_ultra`
-- `compile_incremental`
-- `compile_ultra -incremental`
 
 ### 3. PVT Corners
 
@@ -86,8 +84,7 @@ This approach mirrors **industry-standard synthesis scripting practices** and av
     ├── scripts/            # DC synthesis scripts
     ├── ref/                # 32nm libraries (organized by model & PVT)
     ├── reports/            # Timing, area, power reports
-    ├── comparison/         # QoR summary tables and observations
-    └── logs/               # DC Shell logs
+    └── comparison/         # QoR summary tables and observations
 
 ---
 
