@@ -109,12 +109,8 @@ Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with
 
 | Delay Model | Compile Mode | VT Type | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Total Power (uW) | Total Cell Count |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| NLDM | compile_ultra | RVT |  |  |  |  |  |
-| NLDM | compile_ultra | LVT |  |  |  |  |  |
-| NLDM | compile_ultra | HVT |  |  |  |  |  |
-| CCS | compile_ultra | RVT |  |  |  |  |  |
-| CCS | compile_ultra | LVT |  |  |  |  |  |
-| CCS | compile_ultra | HVT |  |  |  |  |  |
+| NLDM | compile_ultra | RVT LVT HVT |  |  |  |  |  |
+| CCS | compile_ultra | RVT LVT HVT |  |  |  |  |  | 
 
 ---
 
@@ -122,14 +118,10 @@ Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with
 
 You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using different constraints. Use this template:
 
-| Delay Model | VT Type | Constraint File | Compile Mode | Setup WNS (ns) | Setup TNS (ns) | Hold WNS (ns) | Hold TNS (ns) | Area (um^2) | Cells | Total Power (uW) | QoR |
+| Delay Model | VT Type | Constraint File | Compile Mode | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Cells | Total Power (uW) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| NLDM | RVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile |  |  |  |  |  |  |  |  |
-| NLDM | RVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile_ultra |  |  |  |  |  |  |  |  |
-| NLDM | LVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile |  |  |  |  |  |  |  |  |
-| NLDM | LVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile_ultra |  |  |  |  |  |  |  |  |
-| NLDM | HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile |  |  |  |  |  |  |  |  |
-| NLDM | HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile_ultra |  |  |  |  |  |  |  |  |
+| NLDM | RVT LVT HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile |  |  |  |  |  |
+| NLDM | RVT LVT HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile_ultra |  |  |  |  |  |
 
 ---
 
