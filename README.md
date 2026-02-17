@@ -18,7 +18,7 @@ The flow is built to evaluate how QoR changes with:
 - **Technology Node**: 32nm
 - **Libraries**: SAED32 (`RVT`, `LVT`, `HVT` views)
 - **Tool**: Synopsys Design Compiler (`dc_shell`, Academic version)
-- **Operating Point Studied**: `tt0p78vn40`
+- **Operating Point Studied**: `tt0p78vn40c`
 - **Constraints**: single-clock synchronous SDC flow
 
 ---
@@ -30,7 +30,7 @@ For each delay model, synthesis was run in both compile modes:
 - `compile`
 - `compile_ultra`
 
-For each compile mode, the following VT library combinations were tested at `tt0p78vn40`:
+For each compile mode, the following VT library combinations were tested at `tt0p78vn40c`:
 
 1. `RVT`
 2. `RVT + LVT`
@@ -59,12 +59,12 @@ Typical library organization:
 ref/
 └── saed32/
     ├── nldm/
-    │   └── tt0p78vn40/
+    │   └── tt0p78vn40c/
     │       ├── rvt/
     │       ├── lvt/
     │       └── hvt/
     └── ccs/
-        └── tt0p78vn40/
+        └── tt0p78vn40c/
             ├── rvt/
             ├── lvt/
             └── hvt/
@@ -157,7 +157,7 @@ A consolidated comparison document can be maintained in `comparison/`.
 
 ## Key Objective
 
-The goal is to understand how delay model choice and VT-library mixing influence timing, area, power, and optimization behavior for `picorv32a` at `tt0p78vn40`.
+The goal is to understand how delay model choice and VT-library mixing influence timing, area, power, and optimization behavior for `picorv32a` at `tt0p78vn40c`.
 
 ---
 
