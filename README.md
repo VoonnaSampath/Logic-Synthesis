@@ -1,132 +1,88 @@
 # Logic Synthesis QoR Study: `picorv32a` on SAED32 (Design Compiler)
 
-## Overview
+## Project Summary
 
-This repository presents a comparative **Quality of Results (QoR)** study of logic synthesis using **Synopsys Design Compiler (DC Shell, Academic version)** on the **`picorv32a` RISC-V core** in **SAED 32nm**.
+This repository documents a practical logic synthesis study on the `picorv32a` RISC-V core using Synopsys Design Compiler (Academic version) with SAED32 libraries.
 
-The flow is built to evaluate how QoR changes with:
+The work is organized into **two chapters**:
 
-- Delay model (`NLDM` vs `CCS`)
-- Compile mode (`compile` vs `compile_ultra`)
-- Voltage-threshold library combinations (`RVT`, `LVT`, `HVT`)
+1. **Chapter 1: NLDM vs CCS** (model comparison across the standard synthesis flow)
+2. **Chapter 2: SDC with CLK Period < 0.5** (NLDM-only setup worst-case and hold best-case analysis with a new constraint file)
 
----
-
-## Design Details
-
-- **RTL**: `picorv32a` (open-source RISC-V core)
-- **Technology Node**: 32nm
-- **Libraries**: SAED32 (`RVT`, `LVT`, `HVT` views)
-- **Tool**: Synopsys Design Compiler (`dc_shell`, Academic version)
-- **Operating Point Studied**: `tt0p78vn40c`
-- **Constraints**: single-clock synchronous SDC flow
+This README is structured to be easy to follow as both a runbook and a report summary.
 
 ---
 
-## Required Environment Files
+## Common Project Setup
 
-This project also depends on a required setup folder named `rm_setup` (not included in this repository).
+### Design and Tool Context
+
+- RTL design: `picorv32a` (open-source RISC-V core)
+- Technology node: 32nm
+- Tool: Synopsys Design Compiler (`dc_shell`, Academic version)
+- Library families used: SAED32 `RVT`, `LVT`, `HVT`
+
+### Required Environment Files
+
+A required setup directory named `rm_setup` is used by the flow (not included in this repository).
 
 - `rm_setup/common_setup.tcl` is mandatory
-- Additional setup files inside `rm_setup` are also used
-- Target/link library combinations are updated in these setup files
+- Additional setup files in `rm_setup` are also required
+- `target_library` and `link_library` are updated there before each experiment
 
-Without `rm_setup`, the synthesis scripts are not fully runnable.
+### Script and Constraint Locations
 
----
+- Synthesis scripts: `Picorv32a/Scripts/`
+- Constraint files: `Picorv32a/CONSTRAINTS/`
+- Reports: `Picorv32a/Reports/`
 
-## New Constraint Methodology (`picorv32a_new.sdc`, NLDM Only)
+### Post-Compile Report Commands
 
-With the new `.sdc` constraint file, the objective is:
-
-- **Worst-case setup check**: capture maximum path delay violations
-- **Best-case hold check**: validate minimum delay/hold safety
-
-This specific flow uses **NLDM libraries only** (`RVT`, `LVT`, `HVT`).
-
-### 1. Worst-Case (Setup Check) Library Intent
-
-Corner options used for setup analysis:
-
-```text
-ss_vmin_125c.db    ss_vnom_125c.db    tt_vmin_125c.db
-```
-
-Full NLDM library list used for worst-case setup:
+After compilation, reports are extracted individually from `dc_shell`:
 
 ```tcl
-$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p7v125c.db \
-$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p7v125c.db \
-$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_tt0p78v125c.db \
-$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p7v125c.db \
-$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db \
-$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_tt0p78v125c.db \
-$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p7v125c.db \
-$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db \
-$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_tt0p78v125c.db
+report_timing
+report_area
+report_power
+report_cell
+report_reference
+report_qor
 ```
 
-### 2. Best-Case (Hold Check) Min Library Intent
-
-Corner options used for hold analysis:
-
-```text
-ff_vmax_m40c.db    ff_vnom_m40c.db    tt_vmax_m40c.db
-```
-
-Full NLDM library list used for best-case hold:
+To get the total hierarchical cell count:
 
 ```tcl
-$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ff1p16vn40c.db \
-$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ff0p95vn40c.db \
-$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_tt1p05vn40c.db \
-$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ff1p16vn40c.db \
-$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ff0p95vn40c.db \
-$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_tt1p05vn40c.db \
-$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ff1p16vn40c.db \
-$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ff0p95vn40c.db \
-$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_tt1p05vn40c.db
+sizeof_collection [get_cells -hierarchical]
 ```
 
-### Constraint + Library Setup Notes
+### Output Artifact
 
-- Use `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` for this run
-- Update `target_library`/`link_library` in `rm_setup/common_setup.tcl` and related `rm_setup` files
-- Run synthesis and then extract setup/hold/area/power/cell/QoR reports for comparison
+A mapped gate-level netlist is generated after compilation (for example: `picorv32a.mapped.v` in the results output).
 
 ---
 
-## Experiment Matrix
+## Chapter 1: NLDM vs CCS
 
-For each delay model, synthesis was run in both compile modes:
+### Chapter Objective
 
-- `compile`
-- `compile_ultra`
+This chapter compares synthesis behavior between `NLDM` and `CCS` libraries to observe timing, area, power, and cell-count differences under the same compile mode.
 
-For each compile mode, the following VT library combinations were tested at `tt0p78vn40c`:
+### Study Scope and Run Style
 
-1. `RVT`
-2. `RVT + LVT`
-3. `RVT + HVT`
-4. `LVT + HVT`
-5. `RVT + LVT + HVT`
+- Delay model comparison: `NLDM` vs `CCS`
+- Compile focus in summary table: `compile_ultra`
+- Constraint reference used in this chapter: `Picorv32a/CONSTRAINTS/picorv32a.sdc`
+- VT coverage represented in table rows: `RVT,LVT,HVT`
 
-Execution order followed:
+### Library Path Style
 
-1. Run full matrix with **NLDM** libraries
-2. Run full matrix with **CCS** libraries
-
----
-
-## Library Configuration (`PDKPATH`)
-
-The synthesis scripts use a configurable path variable:
+A configurable path variable is used:
 
 ```tcl
 set PDKPATH "./ref/saed32"
 ```
 
-Typical library organization:
+Typical structure:
 
 ```text
 ref/
@@ -143,49 +99,16 @@ ref/
             └── hvt/
 ```
 
-By selecting different `target_library`/`link_library` combinations from these folders, the same script supports all five VT-group experiments.
+### Reports Considered in Chapter 1
 
----
-
-## Reports Collected
-
-For every run (delay model + compile mode + VT combination), the following reports were captured:
-
-- Timing (setup)
-- Timing (hold)
+- Setup timing
+- Hold timing
 - Area
-- Cells
-- Reference
-- QoR
-- Power
-- Clock tree
-- Wire load
-- Voltage-threshold group
+- Total power
+- Total cell count
+- Supporting reports: QoR, reference, clock tree, wire load, VT group
 
----
-
-## Post-Compile Report Extraction
-
-After compilation, extract reports individually from `dc_shell`:
-
-```tcl
-report_timing
-report_area
-report_power
-report_cell
-report_reference
-report_qor
-```
-
-To get the total number of hierarchical cells:
-
-```tcl
-sizeof_collection [get_cells -hierarchical]
-```
-
----
-
-## Results Table Template (Ultra Only)
+### Chapter 1 Table (NLDM vs CCS, Ultra)
 
 Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with `RVT`, `LVT`, and `HVT`.
 
@@ -196,7 +119,76 @@ Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with
 
 ---
 
-## NLDM Multi-Constraint Template (RVT/LVT/HVT)
+## Chapter 2: New SDC Topic (`picorv32a_new.sdc`, NLDM Only)
+
+### Chapter Objective
+
+This chapter focuses on a new constraint-driven analysis to explicitly capture:
+
+- **Worst-case setup behavior** (maximum path delay stress)
+- **Best-case hold behavior** (minimum delay stress)
+
+This chapter uses **NLDM libraries only**.
+
+### Constraint File Used
+
+- `Picorv32a/CONSTRAINTS/picorv32a_new.sdc`
+
+### 1. Worst-Case (Setup Check) Target Library Intent
+
+Used to catch maximum path delay violations.
+
+Corner options:
+
+```text
+ss_vmin_125c.db    ss_vnom_125c.db    tt_vmin_125c.db
+```
+
+Full NLDM library set used:
+
+```tcl
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p7v125c.db \
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p7v125c.db \
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_tt0p78v125c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p7v125c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_tt0p78v125c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p7v125c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_tt0p78v125c.db
+```
+
+### 2. Best-Case (Hold Check) Min Library Intent
+
+Used to evaluate hold under fastest corner tendency.
+
+Corner options:
+
+```text
+ff_vmax_m40c.db    ff_vnom_m40c.db    tt_vmax_m40c.db
+```
+
+Full NLDM library set used:
+
+```tcl
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ff1p16vn40c.db \
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ff0p95vn40c.db \
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_tt1p05vn40c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ff1p16vn40c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ff0p95vn40c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_tt1p05vn40c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ff1p16vn40c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ff0p95vn40c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_tt1p05vn40c.db
+```
+
+### Run Notes for Chapter 2
+
+- Apply `picorv32a_new.sdc`
+- Update NLDM target/link library setup in `rm_setup/common_setup.tcl` and related setup files
+- Run synthesis (`compile` / `compile_ultra`) and extract setup, hold, area, power, QoR, and cell reports
+
+### Chapter 2 Table (NLDM Multi-Constraint)
 
 You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using different constraints. Use this template:
 
@@ -204,6 +196,38 @@ You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using diffe
 | --- | --- | ------- | --- | --- | --- | --- | --- | --- |
 | NLDM | compile | RRVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` |  |  |  |  |  |
 | NLDM | compile_ultra | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` |  |  |  |  |  |
+
+---
+
+## How to Run (Practical Steps)
+
+1. Clone and enter the project:
+
+```bash
+git clone <repository_link>
+cd Git-Repo-Logic-Synthesis/Picorv32a
+```
+
+2. Ensure `.db` libraries are available for the selected model/corners/VTs.
+3. Open DC shell:
+
+```bash
+dc_shell
+```
+
+4. Source the required scripts based on the experiment:
+
+```tcl
+source Picorv32a/Scripts/run_compile_nldm.tcl
+source Picorv32a/Scripts/run_ultra_nldm.tcl
+source Picorv32a/Scripts/run_compile_ccs.tcl
+source Picorv32a/Scripts/run_ultra_ccs.tcl
+```
+
+5. Before each run, update:
+
+- `rm_setup/common_setup.tcl` and related setup files
+- Constraint file selection (`picorv32a.sdc` or `picorv32a_new.sdc`)
 
 ---
 
@@ -216,7 +240,7 @@ You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using diffe
 │   ├── CONSTRAINTS/        # SDC files (including added constraint files)
 │   ├── Scripts/            # DC synthesis scripts
 │   ├── ref/                # SAED32 libraries (NLDM/CCS, VT groups)
-│   └──  Reports/            # timing/area/power and other run reports
+│   └── Reports/            # timing/area/power and other run reports
 ├── rm_setup/               # required setup (not included in this repo)
 ├── README.md
 └── LICENSE
@@ -224,66 +248,15 @@ You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using diffe
 
 ---
 
-## How to Run
-
-### 1. Clone and enter the project
-
-```bash
-git clone <repository_link>
-cd Git-Repo-Logic-Synthesis/Picorv32a
-```
-
-### 2. Place SAED32 `.db` libraries
-
-Ensure NLDM and CCS libraries for `RVT/LVT/HVT` at `tt0p78vn40c` are available under `ref/saed32/`.
-
-### 3. Launch Design Compiler
-
-```bash
-dc_shell
-```
-
-### 4. Source synthesis script
-
-```tcl
-source Picorv32a/Scripts/run_compile_nldm.tcl
-```
-
-Run the required scripts as needed:
-
-- `source Picorv32a/Scripts/run_compile_nldm.tcl`
-- `source Picorv32a/Scripts/run_ultra_nldm.tcl`
-- `source Picorv32a/Scripts/run_compile_ccs.tcl`
-- `source Picorv32a/Scripts/run_ultra_ccs.tcl`
-
-Before running, update the target/link library selections in `rm_setup/common_setup.tcl`, related `rm_setup` files along with the CONSTRAINT file `.sdc` .
-
-For the new setup/hold corner experiment, use `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` with the NLDM library sets described above.
-
----
-
-## Outputs
-
-Expected outputs per run include:
-
-- A mapped gate-level netlist file  (`picorv32a.mapped.v`) in the folder results.
-- Setup and hold timing reports
-- Area, cell, and reference reports
-- QoR and power reports
-- Clock-tree, wire-load, and VT-group reports
-
-
----
-
 ## Key Objective
 
-The goal is to understand how delay model choice and VT-library mixing influence timing, area, power, and optimization behavior for `picorv32a` at `tt0p78vn40c`.
+The objective is to understand how delay-model choice and constraint strategy impact timing, area, power, and cell usage for `picorv32a` in a practical synthesis flow.
 
 ---
 
 ## Disclaimer
 
-All standard-cell libraries used in this project are educational/anonymized representations.
+All standard-cell libraries in this project are educational/anonymized representations.
 No proprietary, NDA-restricted, or foundry-confidential data is included.
 
 ---
