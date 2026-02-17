@@ -129,13 +129,9 @@ sizeof_collection [get_cells -hierarchical]
 Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with `RVT`, `LVT`, and `HVT`.
 
 | Delay Model | Compile Mode | VT Type | Constraint File | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Total Power (uW) | Total Cell Count |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| NLDM | compile_ultra | RVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
-| NLDM | compile_ultra | LVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
-| NLDM | compile_ultra | HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
-| CCS | compile_ultra | RVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
-| CCS | compile_ultra | LVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
-| CCS | compile_ultra | HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
+| --- | --- | ------- | --- | --- | --- | --- | --- | --- |
+| NLDM | compile_ultra | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
+| CCS | compile_ultra | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
 
 ---
 
@@ -144,13 +140,9 @@ Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with
 You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using different constraints. Use this template:
 
 | Delay Model | Compile Mode | VT Type | Constraint File | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Total Power (uW) | Total Cell Count |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| NLDM | compile | RVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
-| NLDM | compile | LVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
-| NLDM | compile | HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
-| NLDM | compile_ultra | RVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
-| NLDM | compile_ultra | LVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
-| NLDM | compile_ultra | HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
+| --- | --- | ------- | --- | --- | --- | --- | --- | --- |
+| NLDM | compile | RRVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` |  |  |  |  |  |
+| NLDM | compile_ultra | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` |  |  |  |  |  |
 
 ---
 
