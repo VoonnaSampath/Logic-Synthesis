@@ -35,6 +35,67 @@ Without `rm_setup`, the synthesis scripts are not fully runnable.
 
 ---
 
+## New Constraint Methodology (`picorv32a_new.sdc`, NLDM Only)
+
+With the new `.sdc` constraint file, the objective is:
+
+- **Worst-case setup check**: capture maximum path delay violations
+- **Best-case hold check**: validate minimum delay/hold safety
+
+This specific flow uses **NLDM libraries only** (`RVT`, `LVT`, `HVT`).
+
+### 1. Worst-Case (Setup Check) Library Intent
+
+Corner options used for setup analysis:
+
+```text
+ss_vmin_125c.db    ss_vnom_125c.db    tt_vmin_125c.db
+```
+
+Full NLDM library list used for worst-case setup:
+
+```tcl
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p7v125c.db \
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ss0p7v125c.db \
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_tt0p78v125c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p7v125c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ss0p75v125c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_tt0p78v125c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p7v125c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ss0p75v125c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_tt0p78v125c.db
+```
+
+### 2. Best-Case (Hold Check) Min Library Intent
+
+Corner options used for hold analysis:
+
+```text
+ff_vmax_m40c.db    ff_vnom_m40c.db    tt_vmax_m40c.db
+```
+
+Full NLDM library list used for best-case hold:
+
+```tcl
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ff1p16vn40c.db \
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_ff0p95vn40c.db \
+$PDK_PATH/lib/stdcell_rvt/db_nldm/saed32rvt_tt1p05vn40c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ff1p16vn40c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_ff0p95vn40c.db \
+$PDK_PATH/lib/stdcell_lvt/db_nldm/saed32lvt_tt1p05vn40c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ff1p16vn40c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_ff0p95vn40c.db \
+$PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_tt1p05vn40c.db
+```
+
+### Constraint + Library Setup Notes
+
+- Use `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` for this run
+- Update `target_library`/`link_library` in `rm_setup/common_setup.tcl` and related `rm_setup` files
+- Run synthesis and then extract setup/hold/area/power/cell/QoR reports for comparison
+
+---
+
 ## Experiment Matrix
 
 For each delay model, synthesis was run in both compile modes:
@@ -196,6 +257,8 @@ Run the required scripts as needed:
 - `source Picorv32a/Scripts/run_ultra_ccs.tcl`
 
 Before running, update the target/link library selections in `rm_setup/common_setup.tcl`, related `rm_setup` files along with the CONSTRAINT file `.sdc` .
+
+For the new setup/hold corner experiment, use `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` with the NLDM library sets described above.
 
 ---
 
