@@ -163,8 +163,7 @@ You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using diffe
 │   ├── CONSTRAINTS/        # SDC files (including added constraint files)
 │   ├── Scripts/            # DC synthesis scripts
 │   ├── ref/                # SAED32 libraries (NLDM/CCS, VT groups)
-│   ├── Reports/            # timing/area/power and other run reports
-│   └── comparison/         # QoR comparison tables and observations
+│   └──  Reports/            # timing/area/power and other run reports
 ├── rm_setup/               # required setup (not included in this repo)
 ├── README.md
 └── LICENSE
@@ -212,13 +211,12 @@ Before running, update the target/link library selections in `rm_setup/common_se
 
 Expected outputs per run include:
 
-- A mapped gate-level netlist file (`*.mapped.v`, for example `results.mapped.v`)
+- A mapped gate-level netlist file  (`picorv32a.mapped.v`) in the folder results.
 - Setup and hold timing reports
 - Area, cell, and reference reports
 - QoR and power reports
 - Clock-tree, wire-load, and VT-group reports
 
-A consolidated comparison document can be maintained in `comparison/`.
 
 ---
 
