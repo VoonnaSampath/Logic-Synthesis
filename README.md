@@ -103,14 +103,39 @@ For every run (delay model + compile mode + VT combination), the following repor
 
 ---
 
+## Post-Compile Report Extraction
+
+After compilation, extract reports individually from `dc_shell`:
+
+```tcl
+report_timing
+report_area
+report_power
+report_cell
+report_reference
+report_qor
+```
+
+To get the total number of hierarchical cells:
+
+```tcl
+sizeof_collection [get_cells -hierarchical]
+```
+
+---
+
 ## Results Table Template (Ultra Only)
 
-Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with `RVT`, `LVT`, and `HVT`:
+Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with `RVT`, `LVT`, and `HVT`.
 
-| Delay Model | Compile Mode | VT Type | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Total Power (uW) | Total Cell Count |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| NLDM | compile_ultra | RVT LVT HVT |  |  |  |  |  |
-| CCS | compile_ultra | RVT LVT HVT |  |  |  |  |  | 
+| Delay Model | Compile Mode | VT Type | Constraint File | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Total Power (uW) | Total Cell Count |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| NLDM | compile_ultra | RVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
+| NLDM | compile_ultra | LVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
+| NLDM | compile_ultra | HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
+| CCS | compile_ultra | RVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
+| CCS | compile_ultra | LVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
+| CCS | compile_ultra | HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
 
 ---
 
@@ -118,10 +143,14 @@ Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with
 
 You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using different constraints. Use this template:
 
-| Delay Model | VT Type | Constraint File | Compile Mode | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Cells | Total Power (uW) |
+| Delay Model | Compile Mode | VT Type | Constraint File | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Total Power (uW) | Total Cell Count |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| NLDM | RVT LVT HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile |  |  |  |  |  |
-| NLDM | RVT LVT HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile_ultra |  |  |  |  |  |
+| NLDM | compile | RVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
+| NLDM | compile | LVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
+| NLDM | compile | HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
+| NLDM | compile_ultra | RVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
+| NLDM | compile_ultra | LVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
+| NLDM | compile_ultra | HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` |  |  |  |  |  |
 
 ---
 
@@ -183,7 +212,7 @@ Before running, update the target/link library selections in `rm_setup/common_se
 
 Expected outputs per run include:
 
-- Gate-level netlist
+- A mapped gate-level netlist file (`*.mapped.v`, for example `results.mapped.v`)
 - Setup and hold timing reports
 - Area, cell, and reference reports
 - QoR and power reports
