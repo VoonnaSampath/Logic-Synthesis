@@ -121,7 +121,7 @@ Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with
 
 ## Chapter 2: New SDC Topic (`picorv32a_new.sdc`, NLDM Only)
 
-### Chapter Objective
+### Chapter Objectives
 
 This chapter focuses on a new constraint-driven analysis to explicitly capture:
 
@@ -208,23 +208,24 @@ git clone <repository_link>
 cd Git-Repo-Logic-Synthesis/Picorv32a
 ```
 
-2. Ensure `.db` libraries are available for the selected model/corners/VTs.
-3. Open DC shell:
+1. Ensure `.db` libraries are available for the selected model/corners/VTs.
+2. Open DC shell:
 
 ```bash
 dc_shell
 ```
 
-4. Source the required scripts based on the experiment:
+1. Source the required scripts based on the experiment:
 
 ```tcl
 source Picorv32a/Scripts/run_compile_nldm.tcl
 source Picorv32a/Scripts/run_ultra_nldm.tcl
 source Picorv32a/Scripts/run_compile_ccs.tcl
 source Picorv32a/Scripts/run_ultra_ccs.tcl
+source Picorv32a/Scripts/run_new_sdc.tcl
 ```
 
-5. Before each run, update:
+1. Before each run, update:
 
 - `rm_setup/common_setup.tcl` and related setup files
 - Constraint file selection (`picorv32a.sdc` or `picorv32a_new.sdc`)

@@ -1,6 +1,6 @@
 ####Script to run Design Compiler with Different Scenarios#####
 ##
-set PDK_PATH ./../ref
+set PDK_PATH ./../ref/saed32/
 #
 source -echo -verbose ./rm_setup/dc_setup.tcl
 
