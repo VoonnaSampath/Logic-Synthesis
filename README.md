@@ -23,6 +23,18 @@ The flow is built to evaluate how QoR changes with:
 
 ---
 
+## Required Environment Files
+
+This project also depends on a required setup folder named `rm_setup` (not included in this repository).
+
+- `rm_setup/common_setup.tcl` is mandatory
+- Additional setup files inside `rm_setup` are also used
+- Target/link library combinations are updated in these setup files
+
+Without `rm_setup`, the synthesis scripts are not fully runnable.
+
+---
+
 ## Experiment Matrix
 
 For each delay model, synthesis was run in both compile modes:
@@ -91,17 +103,62 @@ For every run (delay model + compile mode + VT combination), the following repor
 
 ---
 
+## Results Table Template
+
+Use this template for the full run matrix (`NLDM` first, then `CCS`):
+
+| Delay Model | Compile Mode | VT Combination | Setup WNS (ns) | Setup TNS (ns) | Hold WNS (ns) | Hold TNS (ns) | Area (um^2) | Cells | Dynamic Power (uW) | Leakage Power (uW) | Total Power (uW) | QoR | Clock Tree | Wire Load | VT Group | Reference |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| NLDM | compile | RVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| NLDM | compile | RVT + LVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| NLDM | compile | RVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| NLDM | compile | LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| NLDM | compile | RVT + LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| NLDM | compile_ultra | RVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| NLDM | compile_ultra | RVT + LVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| NLDM | compile_ultra | RVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| NLDM | compile_ultra | LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| NLDM | compile_ultra | RVT + LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CCS | compile | RVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CCS | compile | RVT + LVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CCS | compile | RVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CCS | compile | LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CCS | compile | RVT + LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CCS | compile_ultra | RVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CCS | compile_ultra | RVT + LVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CCS | compile_ultra | RVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CCS | compile_ultra | LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| CCS | compile_ultra | RVT + LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+
+---
+
+## NLDM Multi-Constraint Template (RVT/LVT/HVT)
+
+You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using different constraints. Use this template:
+
+| Delay Model | VT Type | Constraint File | Compile Mode | Setup WNS (ns) | Setup TNS (ns) | Hold WNS (ns) | Hold TNS (ns) | Area (um^2) | Cells | Total Power (uW) | QoR |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| NLDM | RVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile |  |  |  |  |  |  |  |  |
+| NLDM | RVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile_ultra |  |  |  |  |  |  |  |  |
+| NLDM | LVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile |  |  |  |  |  |  |  |  |
+| NLDM | LVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile_ultra |  |  |  |  |  |  |  |  |
+| NLDM | HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile |  |  |  |  |  |  |  |  |
+| NLDM | HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile_ultra |  |  |  |  |  |  |  |  |
+
+---
+
 ## Repository Structure
 
 ```text
 .
 ├── Picorv32a/
 │   ├── rtl/                # picorv32a RTL
-│   ├── constraints/        # SDC constraints
-│   ├── scripts/            # DC synthesis scripts
+│   ├── CONSTRAINTS/        # SDC files (including added constraint files)
+│   ├── Scripts/            # DC synthesis scripts
 │   ├── ref/                # SAED32 libraries (NLDM/CCS, VT groups)
-│   ├── reports/            # timing/area/power and other run reports
+│   ├── Reports/            # timing/area/power and other run reports
 │   └── comparison/         # QoR comparison tables and observations
+├── rm_setup/               # required setup (not included in this repo)
 ├── README.md
 └── LICENSE
 ```
@@ -119,7 +176,7 @@ cd Git-Repo-Logic-Synthesis/Picorv32a
 
 ### 2. Place SAED32 `.db` libraries
 
-Ensure NLDM and CCS libraries for `RVT/LVT/HVT` at `tt0p78vn40` are available under `ref/saed32/`.
+Ensure NLDM and CCS libraries for `RVT/LVT/HVT` at `tt0p78vn40c` are available under `ref/saed32/`.
 
 ### 3. Launch Design Compiler
 
@@ -130,14 +187,17 @@ dc_shell
 ### 4. Source synthesis script
 
 ```tcl
-source scripts/run_dc.tcl
+source Picorv32a/Scripts/run_compile_nldm.tcl
 ```
 
-The script should be configured to iterate over:
+Run the required scripts as needed:
 
-- Delay models: `nldm`, `ccs`
-- Compile modes: `compile`, `compile_ultra`
-- VT combinations: `RVT`, `RVT+LVT`, `RVT+HVT`, `LVT+HVT`, `RVT+LVT+HVT`
+- `source Picorv32a/Scripts/run_compile_nldm.tcl`
+- `source Picorv32a/Scripts/run_ultra_nldm.tcl`
+- `source Picorv32a/Scripts/run_compile_ccs.tcl`
+- `source Picorv32a/Scripts/run_ultra_ccs.tcl`
+
+Before running, update target/link library selections in `rm_setup/common_setup.tcl` and related `rm_setup` files.
 
 ---
 
