@@ -2,16 +2,13 @@
 
 ## Overview
 
-This repository contains a comparative **Quality of Results (QoR)** study of logic synthesis using **Synopsys Design Compiler (DC Shell, Academic)** on the **`picorv32a` RISC-V core**, targeting **SAED 32nm** libraries.
+This repository presents a comparative **Quality of Results (QoR)** study of logic synthesis using **Synopsys Design Compiler (DC Shell, Academic version)** on the **`picorv32a` RISC-V core** in **SAED 32nm**.
 
-The study compares how synthesis choices affect:
+The flow is built to evaluate how QoR changes with:
 
-- Timing (`WNS`, `TNS`)
-- Area
-- Power
-- Optimization behavior across corners
-
-The flow is organized to be reusable and script-friendly: library selection is controlled through a single variable (`PDKPATH`) so the same setup can be reused across delay models and PVT corners.
+- Delay model (`NLDM` vs `CCS`)
+- Compile mode (`compile` vs `compile_ultra`)
+- Voltage-threshold library combinations (`RVT`, `LVT`, `HVT`)
 
 ---
 
@@ -19,127 +16,110 @@ The flow is organized to be reusable and script-friendly: library selection is c
 
 - **RTL**: `picorv32a` (open-source RISC-V core)
 - **Technology Node**: 32nm
-- **Library**: SAED32 (educational/academic setup)
-- **Tool**: Synopsys Design Compiler (`dc_shell` Academic version)
+- **Libraries**: SAED32 (`RVT`, `LVT`, `HVT` views)
+- **Tool**: Synopsys Design Compiler (`dc_shell`, Academic version)
+- **Operating Point Studied**: `tt0p78vn40`
 - **Constraints**: single-clock synchronous SDC flow
 
 ---
 
-## Study Dimensions
+## Experiment Matrix
 
-### 1. Delay Models
-
-- **NLDM (Non-Linear Delay Model)**
-- **CCS (Composite Current Source)**
-
-### 2. Compile Strategies
+For each delay model, synthesis was run in both compile modes:
 
 - `compile`
 - `compile_ultra`
 
-### 3. PVT Corners
+For each compile mode, the following VT library combinations were tested at `tt0p78vn40`:
 
-- **TT**: Typical / Typical / 25C
-- **SS**: Slow / Slow / 125C
-- **FF**: Fast / Fast / -40C
+1. `RVT`
+2. `RVT + LVT`
+3. `RVT + HVT`
+4. `LVT + HVT`
+5. `RVT + LVT + HVT`
+
+Execution order followed:
+
+1. Run full matrix with **NLDM** libraries
+2. Run full matrix with **CCS** libraries
 
 ---
 
 ## Library Configuration (`PDKPATH`)
 
-To switch target libraries, delay models, and PVT corners with minimal script edits, the flow uses a single variable:
+The synthesis scripts use a configurable path variable:
 
 ```tcl
 set PDKPATH "./ref/saed32"
 ```
 
-Expected organization:
+Typical library organization:
 
-    ref/
-    ├── saed32/
-    │   ├── nldm/
-    │   │   ├── tt/
-    │   │   ├── ss/
-    │   │   └── ff/
-    │   └── ccs/
-    │       ├── tt/
-    │       ├── ss/
-    │       └── ff/
+```text
+ref/
+└── saed32/
+    ├── nldm/
+    │   └── tt0p78vn40/
+    │       ├── rvt/
+    │       ├── lvt/
+    │       └── hvt/
+    └── ccs/
+        └── tt0p78vn40/
+            ├── rvt/
+            ├── lvt/
+            └── hvt/
+```
 
-By changing `PDKPATH` (or subfolder selection), the same script supports:
+By selecting different `target_library`/`link_library` combinations from these folders, the same script supports all five VT-group experiments.
 
-- NLDM vs CCS libraries
-- TT / SS / FF corners
-- Different compile strategies
+---
 
-This approach mirrors **industry-standard synthesis scripting practices** and avoids hardcoding library paths.
+## Reports Collected
+
+For every run (delay model + compile mode + VT combination), the following reports were captured:
+
+- Timing (setup)
+- Timing (hold)
+- Area
+- Cells
+- Reference
+- QoR
+- Power
+- Clock tree
+- Wire load
+- Voltage-threshold group
 
 ---
 
 ## Repository Structure
 
-    .
-    ├── rtl/                # picorv32a RTL
-    ├── constraints/        # SDC constraints
-    ├── scripts/            # DC synthesis scripts
-    ├── ref/                # 32nm libraries (organized by model & PVT)
-    ├── reports/            # Timing, area, power reports
-    └── comparison/         # QoR summary tables and observations
+```text
+.
+├── Picorv32a/
+│   ├── rtl/                # picorv32a RTL
+│   ├── constraints/        # SDC constraints
+│   ├── scripts/            # DC synthesis scripts
+│   ├── ref/                # SAED32 libraries (NLDM/CCS, VT groups)
+│   ├── reports/            # timing/area/power and other run reports
+│   └── comparison/         # QoR comparison tables and observations
+├── README.md
+└── LICENSE
+```
 
 ---
 
-## QoR Snapshot: Delay Model vs Compile Strategy (TT)
+## How to Run
 
-| Delay Model | Compile Mode | WNS (ns) | Area (µm²) | Total Power (µW) |
-| --- | --- | --- | --- | --- |
-| NLDM | compile | -0.31 | 142,800 | 8,920 |
-| NLDM | compile_ultra | 0.06 | 149,400 | 9,780 |
-| CCS | compile | -0.18 | 145,200 | 9,010 |
-| CCS | compile_ultra | 0.11 | 151,600 | 9,960 |
-
----
-
-## Incremental Compile Impact (CCS, TT)
-
-| Mode | WNS (ns) | Area Change | Observation |
-| --- | --- | --- | --- |
-| compile_ultra | 0.11 | Baseline | Full re-optimization |
-| compile_ultra -incremental | 0.09 | +1.2% | QoR preserved, ECO-friendly |
-
----
-
-## PVT Timing Comparison (CCS, `compile_ultra`)
-
-| Corner | WNS (ns) | Dominant Effect |
-| --- | --- | --- |
-| TT | 0.11 | Nominal |
-| SS | -0.42 | Worst-case setup |
-| FF | 0.58 | Best timing, higher leakage |
-
----
-
-## Quick Start
-
-### 1. Clone the repository
+### 1. Clone and enter the project
 
 ```bash
 git clone <repository_link>
 cd Git-Repo-Logic-Synthesis/Picorv32a
 ```
 
-### 2. Ensure SAED32 library availability
+### 2. Place SAED32 `.db` libraries
 
-Place the SAED 32nm `.db` files under:
-
-```text
-ref/saed32/
-```
-
-Example:
-
-```text
-ref/saed32/nldm/tt/saed32rvt_tt0p78vn40c.db
-```
+Ensure NLDM and CCS libraries for `RVT/LVT/HVT` at `tt0p78vn40` are available under `ref/saed32/`.
 
 ### 3. Launch Design Compiler
 
@@ -147,56 +127,44 @@ ref/saed32/nldm/tt/saed32rvt_tt0p78vn40c.db
 dc_shell
 ```
 
-### 4. Source the synthesis script
+### 4. Source synthesis script
 
 ```tcl
 source scripts/run_dc.tcl
 ```
 
-The script will:
+The script should be configured to iterate over:
 
-- Configure target/link libraries using `PDKPATH`
-- Read RTL and constraints
-- Run synthesis
-- Generate netlist and reports
+- Delay models: `nldm`, `ccs`
+- Compile modes: `compile`, `compile_ultra`
+- VT combinations: `RVT`, `RVT+LVT`, `RVT+HVT`, `LVT+HVT`, `RVT+LVT+HVT`
 
 ---
 
 ## Outputs
 
-After synthesis, the flow generates:
+Expected outputs per run include:
 
-- Gate-level netlist (`mapped.v`)
-- Timing reports
-- Area reports
-- Power reports
-- QoR summary
+- Gate-level netlist
+- Setup and hold timing reports
+- Area, cell, and reference reports
+- QoR and power reports
+- Clock-tree, wire-load, and VT-group reports
 
-A consolidated report is also included:
-
-- `Reports of PICORV32a.pdf`
+A consolidated comparison document can be maintained in `comparison/`.
 
 ---
 
-## Key Observations
+## Key Objective
 
-- CCS provides more realistic delay modeling and better WNS than NLDM in this study.
-- `compile_ultra` improves timing closure, typically at area/power cost.
-- Incremental compile is useful for ECO-style updates with small QoR drift.
-- SS is the setup-critical corner; FF shows stronger timing with higher leakage tendency.
+The goal is to understand how delay model choice and VT-library mixing influence timing, area, power, and optimization behavior for `picorv32a` at `tt0p78vn40`.
 
 ---
 
 ## Disclaimer
 
-All standard-cell libraries used in this project are educational/anonymized representations.  
+All standard-cell libraries used in this project are educational/anonymized representations.
 No proprietary, NDA-restricted, or foundry-confidential data is included.
-
----
-
-## Motivation
-
-This work focuses on practical synthesis trade-offs, reusable DC scripting, and QoR analysis relevant to ASIC implementation and STA workflows.
 
 ---
 
