@@ -119,7 +119,7 @@ Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with
 You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using different constraints. Use this template:
 
 | Delay Model | VT Type | Constraint File | Compile Mode | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Cells | Total Power (uW) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | NLDM | RVT LVT HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile |  |  |  |  |  |
 | NLDM | RVT LVT HVT | `Picorv32a/CONSTRAINTS/<constraint>.sdc` | compile_ultra |  |  |  |  |  |
 
