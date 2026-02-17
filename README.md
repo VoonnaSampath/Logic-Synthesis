@@ -103,32 +103,18 @@ For every run (delay model + compile mode + VT combination), the following repor
 
 ---
 
-## Results Table Template
+## Results Table Template (Ultra Only)
 
-Use this template for the full run matrix (`NLDM` first, then `CCS`):
+Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with `RVT`, `LVT`, and `HVT`:
 
-| Delay Model | Compile Mode | VT Combination | Setup WNS (ns) | Setup TNS (ns) | Hold WNS (ns) | Hold TNS (ns) | Area (um^2) | Cells | Dynamic Power (uW) | Leakage Power (uW) | Total Power (uW) | QoR | Clock Tree | Wire Load | VT Group | Reference |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| NLDM | compile | RVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| NLDM | compile | RVT + LVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| NLDM | compile | RVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| NLDM | compile | LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| NLDM | compile | RVT + LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| NLDM | compile_ultra | RVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| NLDM | compile_ultra | RVT + LVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| NLDM | compile_ultra | RVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| NLDM | compile_ultra | LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| NLDM | compile_ultra | RVT + LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CCS | compile | RVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CCS | compile | RVT + LVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CCS | compile | RVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CCS | compile | LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CCS | compile | RVT + LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CCS | compile_ultra | RVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CCS | compile_ultra | RVT + LVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CCS | compile_ultra | RVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CCS | compile_ultra | LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
-| CCS | compile_ultra | RVT + LVT + HVT |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+| Delay Model | Compile Mode | VT Type | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Total Power (uW) | Total Cell Count |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| NLDM | compile_ultra | RVT |  |  |  |  |  |
+| NLDM | compile_ultra | LVT |  |  |  |  |  |
+| NLDM | compile_ultra | HVT |  |  |  |  |  |
+| CCS | compile_ultra | RVT |  |  |  |  |  |
+| CCS | compile_ultra | LVT |  |  |  |  |  |
+| CCS | compile_ultra | HVT |  |  |  |  |  |
 
 ---
 
