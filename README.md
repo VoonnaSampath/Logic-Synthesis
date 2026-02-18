@@ -117,6 +117,8 @@ Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with
 | NLDM | compile_ultra | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` | 0.00 | 0.21  | 47053.661412  | 1.6858E+03 | 11010  |
 | CCS | compile_ultra | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` | 0.01 | 0.18 | 43790.645626 | 2.6698E+03 | 9219 |
 
+In this run, CCS shows a small setup improvement (`0.00 -> 0.01 ns`) with lower area and cell count. Area drops by about **6.93%** and total cells drop by about **16.27%** (`11010 -> 9219`). The tradeoff is power, which increases by about **58.37%** (`1.6858E+03 -> 2.6698E+03 uW`), while hold slack is slightly lower (`0.21 -> 0.18 ns`).
+
 ---
 
 ## Chapter 2: New SDC Topic (`picorv32a_new.sdc`, NLDM Only)
@@ -196,6 +198,8 @@ You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using diffe
 | --- | --- | ------- | --- | --- | --- | --- |
 | NLDM | Worst Setup | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` | -2.17 | - | 12509 |
 | NLDM | Best Hold | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` | -  | 0.05 | 14980  |
+
+This table reflects the expected corner split: worst-case setup is strongly stressed (`-2.17 ns`), while best-case hold remains positive (`0.05 ns`). Comparing these two conditions, the cell count increases by about **19.75%** (`12509 -> 14980`). This indicates extra implementation overhead in the hold-focused condition, so setup and hold closure should be evaluated together before final sign-off.
 
 ---
 
