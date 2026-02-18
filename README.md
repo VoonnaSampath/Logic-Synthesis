@@ -114,8 +114,8 @@ Use this compact table to compare `compile_ultra` runs for `NLDM` and `CCS` with
 
 | Delay Model | Compile Mode | VT Type | Constraint File | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Total Power (uW) | Total Cell Count |
 | --- | --- | ------- | --- | --- | --- | --- | --- | --- |
-| NLDM | compile_ultra | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
-| CCS | compile_ultra | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` |  |  |  |  |  |
+| NLDM | compile_ultra | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` | 0.00 | 0.21  | 47053.661412  | 1.6858E+03 | 11010  |
+| CCS | compile_ultra | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a.sdc` | 0.01 | 0.18 | 43790.645626 | 2.6698E+03 | 9219 |
 
 ---
 
@@ -192,10 +192,10 @@ $PDK_PATH/lib/stdcell_hvt/db_nldm/saed32hvt_tt1p05vn40c.db
 
 You also ran additional NLDM experiments for `RVT`, `LVT`, and `HVT` using different constraints. Use this template:
 
-| Delay Model | Compile Mode | VT Type | Constraint File | Setup WNS (ns) | Hold WNS (ns) | Area (um^2) | Total Power (uW) | Total Cell Count |
-| --- | --- | ------- | --- | --- | --- | --- | --- | --- |
-| NLDM | compile | RRVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` |  |  |  |  |  |
-| NLDM | compile_ultra | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` |  |  |  |  |  |
+| Delay Model | Mode | VT Type | Constraint File | Setup WNS (ns) | Hold WNS (ns) | Total Cell Count |
+| --- | --- | ------- | --- | --- | --- | --- |
+| NLDM | Worst Setup | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` | -2.17 | - | 12509 |
+| NLDM | Best Hold | RVT,LVT,HVT | `Picorv32a/CONSTRAINTS/picorv32a_new.sdc` | -  | 0.05 | 14980  |
 
 ---
 
